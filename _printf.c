@@ -11,10 +11,12 @@ int _printf(const char *str, ...)
 {
 	va_list vl;
 	int i = 0, j = 0;
-	char buff[100] = {0};
+	char buff[1024] = {0};
 	char *str_arg;
 
 	va_start(vl, str);
+	if (!(str))
+		return (0);
 	while (str && str[i])
 	{
 		if (str[i] == '%')
