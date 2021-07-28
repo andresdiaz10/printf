@@ -1,49 +1,55 @@
 #include "holberton.h"
 
 /**
- * _printf - formated string
- * @str: string to print
+ * _memcpy - copy the content of the src and store in buffer
+ * @strout: buffer, store the copy
+ * @src: a string to be copied
+ * @s: bytes to copy
  *
- * Return: number of character printed
+ * Return: bytes copied
  */
 
-int _printf(const char *str, ...)
+unsigned int _memcpy(buffer_t *strout, const char *src, unsigned int s)
 {
-	va_list vl;
-	int i = 0, j = 0;
-	char buff[1024] = {0};
-	char *str_arg;
+	unsigned int i;
 
-	va_start(vl, str);
-	if (!(str))
-		return (0);
-	while (str && str[i])
+	for (i = 0 ; i < s ; i++)
 	{
-		if (str[i] == '%')
-		{
-			i++;
-			switch (str[i])
-			{
-				case 'c':
-				buff[j] = (char)va_arg(vl, int);
-				j++;
-				break;
-
-				case 's':
-				str_arg = va_arg(vl, char*);
-				_strcpy(&buff[j], str_arg);
-				j += _strlen(str_arg);
-				break;
-			}
-		}
-		else
-		{
-			buff[j] = str[i];
-			j++;
-		}
-		i++;
+		*(strout->buffer) = *(src + i);
+		(strout->size)++;
+		(strout->buffer)++;
 	}
-	write(1, buff, j);
-	va_end(vl);
-	return (j);
+	return (s);
+}
+
+/**
+ * init_buff - init the buffer
+ * Return: pointer to the buffer
+ */
+buffer_t *init_buff(void)
+{
+	buffer_t *strout;
+
+	strout = malloc(sizeof(buffer_t));
+	if (!(strout))
+		return (NULL);
+	strout->buffer = malloc(sizeof(char) * 1024);
+	if (!(strout->buffer))
+	{
+		free(strout);
+		return (NULL);
+	}
+	strout->begin = strout->buffer;
+	strout->size = 0;
+	return (strout);
+}
+
+/**
+ * free_buff - free the buffer
+ * @strout: buffer to free
+ */
+void free_buff(buffer_t *strout)
+{
+	free(strout->begin);
+	free(strout);
 }

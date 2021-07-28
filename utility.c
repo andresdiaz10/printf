@@ -1,95 +1,55 @@
 #include "holberton.h"
 
 /**
- * _strlen - calculate the lenght of a string
- * @str: string to get the lenght
+ * _memcpy - copy the content of the src and store in buffer
+ * @strout: buffer, store the copy
+ * @src: a string to be copied
+ * @s: bytes to copy
  *
- * Return: the lenght of str
+ * Return: bytes copied
  */
 
-size_t _strlen(const char *str)
+unsigned int _memcpy(buffer_t *strout, const char *src, unsigned int s)
 {
-	size_t length = 0;
+	unsigned int i;
 
-	while (*str++)
-		length++;
-
-	return (length);
-}
-
-/**
- * _strcpy - copies a string pointed to src
- * @dest: buffer to copy the string
- * @src: source string to copy
- *
- * Return: a pointer to the dest string
- */
-
-char *_strcpy(char *dest, const char *src)
-{
-	int i = 0;
-
-	while (src[i])
+	for (i = 0 ; i < s ; i++)
 	{
-		dest[i] = src[i];
-		i++;
+		*(strout->buffer) = *(src + i);
+		(strout->size)++;
+		(strout->buffer)++;
 	}
-
-	return (dest);
+	return (s);
 }
 
 /**
- * rev_string - reverse a string
- * @str: string to be reverse
- *
- * Return: reverse string
+ * init_buff - init the buffer
+ * Return: pointer to the buffer
  */
-
-char *rev_string(char *str)
+buffer_t *init_buff(void)
 {
-	size_t i;
-	size_t length = _strlen(str);
-	char c;
+	buffer_t *strout;
 
-	if (!(str))
+	strout = malloc(sizeof(buffer_t));
+	if (!(strout))
 		return (NULL);
-	for (i = 0 ; i < (length / 2) ; i++)
+	strout->buffer = malloc(sizeof(char) * 1024);
+	if (!(strout->buffer))
 	{
-		c = str[i];
-		str[i] = str[length - i - 1];
-		str[length - i - 1] = c;
+		free(strout);
+		return (NULL);
 	}
-	return (str);
+	strout->begin = strout->buffer;
+	strout->size = 0;
+	return (strout);
 }
 
 /**
- * base_convert - convert a int to a respective base
- * @i: the number
- * @strout: the out str
- * @base: base to converter
- *
- * Return: a string with the base
+ * free_buff - free the buffer
+ * @strout: buffer to free
  */
-char *base_convert(int i, char *strout, int base)
+void free_buff(buffer_t *strout)
 {
-	char *str = strout;
-	int digit, sign =  0;
-
-	if (i < 0)
-	{
-		sign = 1;
-		i *= -1;
-	}
-	while (i)
-	{
-		digit = i % base;
-		*str = (digit > 9) ? ('A' + digit - 10) : '0' + digit;
-		i = i / base;
-		str++;
-	}
-	if (sign)
-		*str++ = '-';
-	*str = '\0';
-	rev_string(strout);
-	return (strout);
+	free(strout->begin);
+	free(strout);
 }
