@@ -1,55 +1,73 @@
 #include "holberton.h"
 
 /**
- * _memcpy - copy the content of the src and store in buffer
- * @strout: buffer, store the copy
- * @src: a string to be copied
- * @s: bytes to copy
+ * write_printf - print in the stdout and free memory
+ * @args: list argument
+ * @strout: buffer struct, string to print
+ */
+void write_printf(va_list args, buffer_t *strout)
+{
+	write(1, strout->begin, strout->size);
+	va_end(args);
+	free_buff(strout);
+}
+
+/**
+ * read_printf - move into string and search the format
+ * @format: string to print
+ * @args: list arguments
+ * @strout: buffer struct, store the format
  *
- * Return: bytes copied
+ * Return: number of char in strout
  */
-
-unsigned int _memcpy(buffer_t *strout, const char *src, unsigned int s)
+int read_printf(const char *format, va_list args, buffer_t *strout)
 {
-	unsigned int i;
+	int i;
+	int numc = 0;
+	char tmp;
+	unsigned int (*f)(va_list, buffer_t *);
 
-	for (i = 0 ; i < s ; i++)
+	for (i = 0 ; *(format + i) ; i++)
 	{
-		*(strout->buffer) = *(src + i);
-		(strout->size)++;
-		(strout->buffer)++;
+		if (*(format + i) == '%')
+		{
+			tmp = 0;
+			f = get_format(format + i + tmp + 1);
+			if ((f))
+			{
+				i += tmp + 1;
+				numc += f(args, strout);
+				continue;
+			}
+			else if (*(format + i + tmp + 1) == '\0')
+			{
+				numc = -1;
+				break;
+			}
+		}
+		numc += _memcpy(strout, (format + i), 1);
 	}
-	return (s);
+	write_printf(args, strout);
+	return (numc);
 }
-
 /**
- * init_buff - init the buffer
- * Return: pointer to the buffer
+ * _printf - init the buffer and format
+ * @format: string to print
+ *
+ * Return: number of char to be printed
  */
-buffer_t *init_buff(void)
+int _printf(const char *format, ...)
 {
+	int numc;
 	buffer_t *strout;
+	va_list args;
 
-	strout = malloc(sizeof(buffer_t));
+	if (!(format))
+		return (-1);
+	strout = init_buff();
 	if (!(strout))
-		return (NULL);
-	strout->buffer = malloc(sizeof(char) * 1024);
-	if (!(strout->buffer))
-	{
-		free(strout);
-		return (NULL);
-	}
-	strout->begin = strout->buffer;
-	strout->size = 0;
-	return (strout);
-}
-
-/**
- * free_buff - free the buffer
- * @strout: buffer to free
- */
-void free_buff(buffer_t *strout)
-{
-	free(strout->begin);
-	free(strout);
+		return (-1);
+	va_start(args, format);
+	numc = read_printf(format, args, strout);
+	return (numc);
 }
