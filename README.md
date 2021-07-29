@@ -37,6 +37,7 @@ Conversion specification is introduced by the character % and ends with a conver
 - s: character string (string)
 - c: character (char)
 - d or i: signed integer in base 10 (int)
+
 Example ```main.c```:
 ```
 #include "holberton.h"
