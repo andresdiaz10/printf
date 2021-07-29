@@ -37,6 +37,19 @@ Conversion specification is introduced by the character % and ends with a conver
 - s: character string (string)
 - c: character (char)
 - d or i: signed integer in base 10 (int)
+Example ```main.c```:
+```
+#include "holberton.h"
+
+int main(void)
+{
+    _printf("%s, %c, %d", "Hello", 'H', 10);
+}
+```
+Output:
+```
+Hello, H, 10
+```
 # Author
 
 - Andres Zapata.
