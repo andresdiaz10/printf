@@ -31,7 +31,13 @@ Prototype: ``` int _printf(const char *format, ...); ```
 
 ## Return
 _printf returns the numbers of characters printed (excluding the null byte), if an error is found, returns -1.
-# Authors
+
+## Format of the string
+Conversion specification is introduced by the character % and ends with a conversion specifier.
+- s: character string (string)
+- c: character (char)
+- d or i: signed integer in base 10 (int)
+# Author
 
 - Andres Zapata.
 - Mayi Cadavid.
