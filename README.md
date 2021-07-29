@@ -26,7 +26,11 @@ $
 ```
 # Description
 _printf writes output to standard output, the function is written under the control of a format, that specifies how subsequent arguments  are converted for output.
+
 Prototype: ``` int _printf(const char *format, ...); ```
+
+Return
+_printf returns the numbers of characters printed (excluding the null byte), if an error is found, returns -1.
 # Authors
 
 - Andres Zapata.
