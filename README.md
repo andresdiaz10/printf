@@ -29,7 +29,7 @@ _printf writes output to standard output, the function is written under the cont
 
 Prototype: ``` int _printf(const char *format, ...); ```
 
-Return
+## Return
 _printf returns the numbers of characters printed (excluding the null byte), if an error is found, returns -1.
 # Authors
 
