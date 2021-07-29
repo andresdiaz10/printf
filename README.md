@@ -26,7 +26,7 @@ $
 ```
 # Description
 _printf writes output to standard output, the function is written under the control of a format, that specifies how subsequent arguments  are converted for output.
-Prototype: int _printf(const char *format, ...);
+Prototype: ``` int _printf(const char *format, ...); ```
 # Authors
 
 - Andres Zapata.
